@@ -1,4 +1,4 @@
-package com.muchine.githubuser.repository.source.response
+package com.muchine.githubuser.repository.source.remote.response
 
 import com.google.gson.annotations.SerializedName
 

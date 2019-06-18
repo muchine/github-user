@@ -1,17 +1,19 @@
 package com.muchine.githubuser.view
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.muchine.githubuser.R
+import com.muchine.githubuser.repository.User
+import com.muchine.githubuser.repository.UserRepository
 import com.muchine.githubuser.util.Keyboard
 import com.muchine.githubuser.viewmodels.UserViewModel
-import com.muchine.githubuser.viewmodels.UserViewModelFactory
+import com.muchine.githubuser.viewmodels.getViewModel
 import kotlinx.android.synthetic.main.view_user_list.*
 
 class UserListFragment : Fragment() {
@@ -26,17 +28,30 @@ class UserListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        this.viewModel = ViewModelProviders.of(this, UserViewModelFactory).get(UserViewModel::class.java)
-        this.adapter = UserItemAdapter(requireContext(), viewModel)
+        this.viewModel = getViewModel { createUserViewModel() }
+        this.adapter = UserItemAdapter(requireContext(), createItemListener())
+
+        Log.d("UserViewModel", "UserFragment: ${System.identityHashCode(viewModel)}")
 
         viewModel.users.observe(this, Observer {
-            onUsersChanged()
+            onUsersChanged(it)
         })
 
         initRecyclerView()
         initViewListeners()
+    }
 
-        reload()
+    private fun createUserViewModel(): UserViewModel {
+        val repository = UserRepository(requireContext().applicationContext)
+        return UserViewModel(repository)
+    }
+
+    private fun createItemListener(): UserItemView.Listener {
+        return object : UserItemView.Listener {
+            override fun onClickFavorite(user: User) {
+                viewModel.onClickFavorite(user)
+            }
+        }
     }
 
     private fun initRecyclerView() {
@@ -50,21 +65,21 @@ class UserListFragment : Fragment() {
         }
     }
 
-    private fun onUsersChanged() {
+    private fun onUsersChanged(users: List<User>) {
         progressBar.visibility = View.GONE
-        reload()
+        reload(users)
     }
 
     private fun onClickSearch() {
         progressBar.visibility = View.VISIBLE
         editQuery.let {
             Keyboard.hide(it)
-            viewModel.fetch(editQuery.text.toString())
+            viewModel.fetchUser(editQuery.text.toString())
         }
     }
 
-    private fun reload() {
-        adapter.notifyDataSetChanged()
+    private fun reload(users: List<User>) {
+        adapter.items = users
     }
 
 }

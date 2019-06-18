@@ -1,32 +1,50 @@
 package com.muchine.githubuser.repository
 
-import androidx.lifecycle.MutableLiveData
-import com.muchine.githubuser.repository.source.GithubDataSourceFactory
-import com.muchine.githubuser.repository.source.response.UserListResponse
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import android.content.Context
+import androidx.annotation.WorkerThread
+import com.muchine.githubuser.repository.source.local.AppDatabase
+import com.muchine.githubuser.repository.source.remote.GithubDataSourceFactory
+import com.muchine.githubuser.repository.source.remote.response.UserItemResponse
 
-class UserRepository {
+class UserRepository(context: Context) {
 
     private val remoteSource = GithubDataSourceFactory.create()
+    private val localSource = AppDatabase.getInstance(context).localSource()
 
-    val users = MutableLiveData<List<User>>()
+    @WorkerThread
+    suspend fun saveFavorite(user: User): User {
+        val favorite = User(user.id, user.name, user.imageUrl, true)
+        localSource.save(favorite)
 
-    fun fetch(query: String) {
-        remoteSource.findUsers(query).enqueue(object : Callback<UserListResponse> {
-            override fun onFailure(call: Call<UserListResponse>, t: Throwable) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
+        return favorite
+    }
 
-            override fun onResponse(call: Call<UserListResponse>, response: Response<UserListResponse>) {
-                if (!response.isSuccessful) return
+    @WorkerThread
+    suspend fun removeFavorite(user: User): User {
+        localSource.remove(user)
+        return User(user.id, user.name, user.imageUrl, false)
+    }
 
-                users.value = response.body()?.let { response ->
-                    response.items.map { User(it.name, it.avatarUrl) }
-                } ?: return
-            }
-        })
+    @WorkerThread
+    suspend fun findFavorites(query: String = ""): List<User> {
+        return if (query.isEmpty()) localSource.findAll() else localSource.findByName("%$query%")
+    }
+
+    @WorkerThread
+    suspend fun findUsers(query: String): List<User> {
+        val favoriteUsers = localSource.findAll()
+
+        val response = remoteSource.findUsers(query)
+        if (!response.isSuccessful) throw IllegalStateException("response is not successful")
+
+        response.body()?.let { response ->
+            return response.items.map { createUser(it, favoriteUsers) }
+        } ?: throw IllegalStateException("response body is null")
+    }
+
+    private fun createUser(item: UserItemResponse, favoriteUsers: List<User>): User {
+        val isFavorite = favoriteUsers.any { item.id == it.id }
+        return User(item.id, item.name, item.avatarUrl, isFavorite)
     }
 
 }
