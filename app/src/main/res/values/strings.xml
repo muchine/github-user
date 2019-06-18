@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">GithubUser</string>
     <string name="search_hint">검색어를 입력하세요</string>
+    <string name="tab_api">API</string>
+    <string name="tab_local">로컬</string>
+	<string name="search_icon_text">Search</string>
 </resources>

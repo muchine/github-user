@@ -2,18 +2,20 @@ package com.muchine.githubuser
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProviders
-import com.muchine.githubuser.viewmodels.UserViewModel
-import com.muchine.githubuser.viewmodels.UserViewModelFactory
+import com.muchine.githubuser.view.FragmentPageFactory
+import com.muchine.githubuser.view.MainPagerAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var adapter: MainPagerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val viewModel = ViewModelProviders.of(this, UserViewModelFactory).get(UserViewModel::class.java)
-        userList.initialize(this, viewModel)
+        adapter = MainPagerAdapter(this, FragmentPageFactory.create(), supportFragmentManager)
+        pager.adapter = adapter
+        tabLayout.setupWithViewPager(pager)
     }
 }
