@@ -10,14 +10,14 @@ import com.muchine.githubuser.R
 import com.muchine.githubuser.repository.User
 import com.muchine.githubuser.repository.UserRepository
 import com.muchine.githubuser.ui.base.BaseFragment
+import com.muchine.githubuser.ui.core.viewmodel.getViewModel
 import com.muchine.githubuser.util.Keyboard
 import com.muchine.githubuser.view.adapter.UserItemAdapter
 import com.muchine.githubuser.view.adapter.item.UserItemView
-import com.muchine.githubuser.viewmodels.UserViewModel
-import com.muchine.githubuser.viewmodels.getViewModel
+import com.muchine.githubuser.viewmodel.UserViewModel
 import kotlinx.android.synthetic.main.view_user_list.*
 
-class UserListFragment : BaseFragment() {
+class UsersFragment : BaseFragment() {
 
     private lateinit var viewModel: UserViewModel
     private lateinit var adapter: UserItemAdapter

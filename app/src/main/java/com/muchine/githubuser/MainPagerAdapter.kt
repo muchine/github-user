@@ -5,7 +5,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.muchine.githubuser.view.FavoritesFragment
-import com.muchine.githubuser.view.UserListFragment
+import com.muchine.githubuser.view.UsersFragment
 
 class MainPagerAdapter(
     private val context: Context,
@@ -36,11 +36,11 @@ object FragmentPageFactory {
 
     private val pages = arrayListOf(
         FragmentPage(
-            R.string.tab_api,
-            UserListFragment()
+            R.string.tab_users,
+            UsersFragment()
         ),
         FragmentPage(
-            R.string.tab_local,
+            R.string.tab_favorites,
             FavoritesFragment()
         )
     )

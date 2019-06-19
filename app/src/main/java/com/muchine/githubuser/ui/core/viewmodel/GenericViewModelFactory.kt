@@ -1,4 +1,4 @@
-package com.muchine.githubuser.viewmodels
+package com.muchine.githubuser.ui.core.viewmodel
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -18,7 +18,9 @@ inline fun <reified T : ViewModel> Fragment.getViewModel(noinline creator: (() -
     return if (creator == null)
         ViewModelProviders.of(requireActivity()).get(T::class.java)
     else
-        ViewModelProviders.of(requireActivity(), GenericViewModelFactory(creator)).get(T::class.java)
+        ViewModelProviders.of(requireActivity(),
+            GenericViewModelFactory(creator)
+        ).get(T::class.java)
 }
 
 inline fun <reified T : ViewModel> FragmentActivity.getViewModel(noinline creator: (() -> T)? = null): T {

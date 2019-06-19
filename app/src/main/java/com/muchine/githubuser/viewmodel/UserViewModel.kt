@@ -1,4 +1,4 @@
-package com.muchine.githubuser.viewmodels
+package com.muchine.githubuser.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
