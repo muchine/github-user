@@ -5,18 +5,18 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.muchine.githubuser.R
 import com.muchine.githubuser.repository.User
 import com.muchine.githubuser.repository.UserRepository
+import com.muchine.githubuser.ui.base.BaseFragment
 import com.muchine.githubuser.util.Keyboard
 import com.muchine.githubuser.viewmodels.UserViewModel
 import com.muchine.githubuser.viewmodels.getViewModel
 import kotlinx.android.synthetic.main.view_user_list.*
 
-class FavoritesFragment : Fragment() {
+class FavoritesFragment : BaseFragment() {
 
     private lateinit var viewModel: UserViewModel
     private lateinit var adapter: UserItemAdapter

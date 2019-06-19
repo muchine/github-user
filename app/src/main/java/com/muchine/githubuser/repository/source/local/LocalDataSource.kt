@@ -12,10 +12,10 @@ interface LocalDataSource {
     @Delete
     suspend fun remove(user: User)
 
-    @Query("SELECT * FROM users")
+    @Query("SELECT * FROM users ORDER BY name ASC")
     suspend fun findAll(): List<User>
 
-    @Query("SELECT * FROM users WHERE name LIKE :name")
+    @Query("SELECT * FROM users WHERE name LIKE :name ORDER BY name ASC")
     suspend fun findByName(name: String): List<User>
 
 }

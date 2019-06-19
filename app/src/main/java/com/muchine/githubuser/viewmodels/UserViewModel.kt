@@ -16,13 +16,13 @@ class UserViewModel(
 
     fun fetchUser(query: String) {
         viewModelScope.launch {
-            users.value = repository.findUsers(query)
+            updateUsers(repository.findUsers(query))
         }
     }
 
     fun fetchFavorite(query: String) {
         viewModelScope.launch {
-            favorites.value = repository.findFavorites(query)
+            updateFavorites(repository.findFavorites(query))
         }
     }
 
@@ -48,15 +48,23 @@ class UserViewModel(
 
     private fun updateUsers(updated: User) {
         val userList = users.value ?: return
-        users.value = userList.map { if (it.id == updated.id) updated else it }
+        updateUsers(userList.map { if (it.id == updated.id) updated else it })
     }
 
     private fun updateFavorites(updated: User) {
-        favorites.value = if (updated.isFavorite) {
-            arrayListOf(updated) + (favorites.value ?: arrayListOf())
-        } else {
-            favorites.value?.filter { it.id != updated.id }
+        val favoriteList = (favorites.value ?: arrayListOf()).let {
+            if (updated.isFavorite) it + updated else it.filter { item -> item.id != updated.id }
         }
+
+        updateFavorites(favoriteList)
+    }
+
+    private fun updateUsers(updated: List<User>) {
+        users.value = updated.sortedBy { it.name }
+    }
+
+    private fun updateFavorites(updated: List<User>) {
+        favorites.value = updated.sortedBy { it.name }
     }
 
 }

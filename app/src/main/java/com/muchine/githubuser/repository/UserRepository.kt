@@ -6,12 +6,12 @@ import com.muchine.githubuser.repository.source.local.AppDatabase
 import com.muchine.githubuser.repository.source.remote.GithubDataSourceFactory
 import com.muchine.githubuser.repository.source.remote.response.UserItemResponse
 
+@WorkerThread
 class UserRepository(context: Context) {
 
     private val remoteSource = GithubDataSourceFactory.create()
     private val localSource = AppDatabase.getInstance(context).localSource()
 
-    @WorkerThread
     suspend fun saveFavorite(user: User): User {
         val favorite = User(user.id, user.name, user.imageUrl, true)
         localSource.save(favorite)
@@ -19,18 +19,15 @@ class UserRepository(context: Context) {
         return favorite
     }
 
-    @WorkerThread
     suspend fun removeFavorite(user: User): User {
         localSource.remove(user)
         return User(user.id, user.name, user.imageUrl, false)
     }
 
-    @WorkerThread
     suspend fun findFavorites(query: String = ""): List<User> {
         return if (query.isEmpty()) localSource.findAll() else localSource.findByName("%$query%")
     }
 
-    @WorkerThread
     suspend fun findUsers(query: String): List<User> {
         val favoriteUsers = localSource.findAll()
 

@@ -2,6 +2,7 @@ package com.muchine.githubuser.view
 
 import android.content.Context
 import android.view.View
+import androidx.core.content.ContextCompat
 import com.muchine.githubuser.R
 import com.muchine.githubuser.core.image.option.ImageOptionBuilder
 import com.muchine.githubuser.repository.User
@@ -33,7 +34,7 @@ class UserItemView(
 
     private fun renderFavorite(user: User) {
         val imageId = if (user.isFavorite) R.drawable.ic_favorite_black_24dp else R.drawable.ic_favorite_border_black_24dp
-        iconFavorite.setImageDrawable(context.resources.getDrawable(imageId, null))
+        iconFavorite.setImageDrawable(ContextCompat.getDrawable(context, imageId))
         iconFavorite.setOnClickListener {
             itemListener.onClickFavorite(user)
         }
