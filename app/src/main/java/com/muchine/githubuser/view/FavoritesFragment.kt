@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.LinearLayoutManager
+import com.jay.widget.StickyHeadersLinearLayoutManager
 import com.muchine.githubuser.R
 import com.muchine.githubuser.repository.User
 import com.muchine.githubuser.repository.UserRepository
@@ -54,7 +54,7 @@ class FavoritesFragment : BaseFragment() {
     }
 
     private fun initRecyclerView() {
-        recyclerView.layoutManager = LinearLayoutManager(context)
+        recyclerView.layoutManager = StickyHeadersLinearLayoutManager<UserItemAdapter>(context)
         recyclerView.adapter = adapter
     }
 
@@ -78,7 +78,7 @@ class FavoritesFragment : BaseFragment() {
     }
 
     private fun reload(favorites: List<User>) {
-        adapter.items = favorites
+        adapter.reload(favorites)
     }
 
 }

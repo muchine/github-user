@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.LinearLayoutManager
+import com.jay.widget.StickyHeadersLinearLayoutManager
 import com.muchine.githubuser.R
 import com.muchine.githubuser.repository.User
 import com.muchine.githubuser.repository.UserRepository
@@ -55,7 +55,7 @@ class UserListFragment : BaseFragment() {
     }
 
     private fun initRecyclerView() {
-        recyclerView.layoutManager = LinearLayoutManager(context)
+        recyclerView.layoutManager = StickyHeadersLinearLayoutManager<UserItemAdapter>(context)
         recyclerView.adapter = adapter
     }
 
@@ -82,7 +82,7 @@ class UserListFragment : BaseFragment() {
     }
 
     private fun reload(users: List<User>) {
-        adapter.items = users
+        adapter.reload(users)
     }
 
 }

@@ -1,42 +1,43 @@
 package com.muchine.githubuser.view
 
 import android.content.Context
-import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
+import com.jay.widget.StickyHeaders
 import com.muchine.githubuser.repository.User
+import com.muchine.githubuser.view.adapter.*
 
 class UserItemAdapter(
-    private val context: Context,
-    private val itemListener: UserItemView.Listener
-) : RecyclerView.Adapter<UserItemViewHolder>() {
+    context: Context,
+    itemListener: UserItemView.Listener
+) : CategorizedItemAdapter(), StickyHeaders {
 
-    var items: List<User> = arrayListOf()
-        set(value) {
-            field = value
-            notifyDataSetChanged()
+    private val headerBinder = UserHeaderBinder(context)
+    private val itemBinder = UserItemBinder(context, itemListener)
+
+    init {
+        addBinder(headerBinder)
+        addBinder(itemBinder)
+    }
+
+    override fun isStickyHeader(position: Int): Boolean {
+        return headerBinder.isBindable(position)
+    }
+
+    fun reload(users: List<User>) {
+        clear()
+        val grouped = users.groupBy { it.name[0] }
+
+        var position = 0
+        grouped.keys.sorted().forEach { key ->
+            headerBinder.add(UserItemHeader(key.toString()), position++)
+
+            val items = grouped[key]?.sortedBy { user -> user.name } ?: throw IllegalStateException("No item found")
+            items.forEach { user ->
+                itemBinder.add(UserItem(user), position++)
+            }
         }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserItemViewHolder {
-        return UserItemViewHolder(UserItemView(context, itemListener))
-    }
-
-    override fun getItemCount(): Int {
-        return items.size
-    }
-
-    override fun onBindViewHolder(holder: UserItemViewHolder, position: Int) {
-        val item = items[position]
-        holder.bind(item)
-    }
-}
-
-class UserItemViewHolder(
-    itemView: UserItemView
-) : RecyclerView.ViewHolder(itemView) {
-
-    fun bind(user: User) {
-        val view = itemView as UserItemView
-        view.bind(user)
+        notifyDataSetChanged()
     }
 
 }
+
