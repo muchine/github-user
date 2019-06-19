@@ -1,4 +1,4 @@
-package com.muchine.githubuser.core.image
+package com.muchine.githubuser.ui.core.image
 
 import android.content.Context
 import android.graphics.Bitmap

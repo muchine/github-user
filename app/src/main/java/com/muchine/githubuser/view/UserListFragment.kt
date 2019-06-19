@@ -12,6 +12,8 @@ import com.muchine.githubuser.repository.User
 import com.muchine.githubuser.repository.UserRepository
 import com.muchine.githubuser.ui.base.BaseFragment
 import com.muchine.githubuser.util.Keyboard
+import com.muchine.githubuser.view.adapter.UserItemAdapter
+import com.muchine.githubuser.view.adapter.item.UserItemView
 import com.muchine.githubuser.viewmodels.UserViewModel
 import com.muchine.githubuser.viewmodels.getViewModel
 import kotlinx.android.synthetic.main.view_user_list.*

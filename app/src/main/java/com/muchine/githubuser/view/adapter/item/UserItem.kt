@@ -1,4 +1,4 @@
-package com.muchine.githubuser.view.adapter
+package com.muchine.githubuser.view.adapter.item
 
 import com.muchine.githubuser.repository.User
 

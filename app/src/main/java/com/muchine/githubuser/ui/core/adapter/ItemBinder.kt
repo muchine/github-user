@@ -1,4 +1,4 @@
-package com.muchine.githubuser.view.adapter
+package com.muchine.githubuser.ui.core.adapter
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -10,9 +10,5 @@ interface ItemBinder {
     fun bind(holder: RecyclerView.ViewHolder, position: Int)
 
     fun createViewHolder(parent: ViewGroup): RecyclerView.ViewHolder
-
-    fun isBindable(position: Int): Boolean
-
-    fun clear()
 
 }

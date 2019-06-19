@@ -1,18 +1,18 @@
-package com.muchine.githubuser.view
+package com.muchine.githubuser.view.adapter.header
 
 import android.content.Context
 import android.view.View
 import com.muchine.githubuser.R
-import com.muchine.githubuser.view.adapter.UserItemHeader
+import com.muchine.githubuser.ui.core.adapter.BindableItemView
 import kotlinx.android.synthetic.main.view_user_item_header.view.*
 
-class UserItemHeaderView(context: Context) : BaseView(context) {
+class UserHeaderView(context: Context) : BindableItemView<UserHeader>(context) {
 
     init {
         View.inflate(context, R.layout.view_user_item_header, this)
     }
 
-    fun bind(header: UserItemHeader) {
+    override fun bind(header: UserHeader) {
         textHeader.text = header.name
     }
 

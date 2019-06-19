@@ -1,24 +1,27 @@
-package com.muchine.githubuser.view
+package com.muchine.githubuser.view.adapter.item
 
 import android.content.Context
 import android.view.View
 import androidx.core.content.ContextCompat
 import com.muchine.githubuser.R
-import com.muchine.githubuser.core.image.option.ImageOptionBuilder
 import com.muchine.githubuser.repository.User
+import com.muchine.githubuser.ui.core.adapter.BindableItemView
+import com.muchine.githubuser.ui.core.image.option.ImageOptionBuilder
 import kotlinx.android.synthetic.main.view_user_item.view.*
 import kr.co.rememberapp.ui.photo.image.SimpleImage
 
 class UserItemView(
     context: Context,
     private val itemListener: Listener
-) : BaseView(context) {
+) : BindableItemView<UserItem>(context) {
 
     init {
         View.inflate(context, R.layout.view_user_item, this)
     }
 
-    fun bind(user: User) {
+    override fun bind(item: UserItem) {
+        val user = item.user
+
         userName.text = user.name
         renderImage(user)
         renderFavorite(user)

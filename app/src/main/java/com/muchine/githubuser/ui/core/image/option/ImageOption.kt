@@ -3,7 +3,7 @@ package kr.co.rememberapp.ui.photo.image
 import android.graphics.Bitmap
 import com.bumptech.glide.RequestBuilder
 import com.bumptech.glide.request.RequestOptions
-import com.muchine.githubuser.core.image.transform.RotateTransformation
+import com.muchine.githubuser.ui.core.image.transform.RotateTransformation
 
 class ImageOption {
 

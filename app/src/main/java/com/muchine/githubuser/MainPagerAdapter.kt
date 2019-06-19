@@ -1,10 +1,11 @@
-package com.muchine.githubuser.view
+package com.muchine.githubuser
 
 import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import com.muchine.githubuser.R
+import com.muchine.githubuser.view.FavoritesFragment
+import com.muchine.githubuser.view.UserListFragment
 
 class MainPagerAdapter(
     private val context: Context,
@@ -34,8 +35,14 @@ class FragmentPage(
 object FragmentPageFactory {
 
     private val pages = arrayListOf(
-        FragmentPage(R.string.tab_api, UserListFragment()),
-        FragmentPage(R.string.tab_local, FavoritesFragment())
+        FragmentPage(
+            R.string.tab_api,
+            UserListFragment()
+        ),
+        FragmentPage(
+            R.string.tab_local,
+            FavoritesFragment()
+        )
     )
 
     fun create() = pages

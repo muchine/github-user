@@ -1,4 +1,4 @@
-package com.muchine.githubuser.view
+package com.muchine.githubuser.ui.base
 
 import android.content.Context
 import android.util.AttributeSet

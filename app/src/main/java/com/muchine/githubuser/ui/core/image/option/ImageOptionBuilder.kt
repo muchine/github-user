@@ -1,4 +1,4 @@
-package com.muchine.githubuser.core.image.option
+package com.muchine.githubuser.ui.core.image.option
 
 import android.graphics.Bitmap
 import kr.co.rememberapp.ui.photo.image.ImageOption

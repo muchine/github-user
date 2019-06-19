@@ -1,4 +1,4 @@
-package com.muchine.githubuser.core.image.transform
+package com.muchine.githubuser.ui.core.image.transform
 
 import android.graphics.Bitmap
 import android.graphics.Matrix
