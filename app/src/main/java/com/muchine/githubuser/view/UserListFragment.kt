@@ -1,7 +1,6 @@
 package com.muchine.githubuser.view
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,8 +31,6 @@ class UserListFragment : BaseFragment() {
 
         this.viewModel = getViewModel { createUserViewModel() }
         this.adapter = UserItemAdapter(requireContext(), createItemListener())
-
-        Log.d("UserViewModel", "UserFragment: ${System.identityHashCode(viewModel)}")
 
         viewModel.users.observe(this, Observer {
             onUsersChanged(it)

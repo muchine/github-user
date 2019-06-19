@@ -20,7 +20,7 @@ class UserViewModel(
         }
     }
 
-    fun fetchFavorite(query: String) {
+    fun fetchFavorite(query: String = "") {
         viewModelScope.launch {
             updateFavorites(repository.findFavorites(query))
         }

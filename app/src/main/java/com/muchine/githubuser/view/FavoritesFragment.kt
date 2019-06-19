@@ -1,7 +1,6 @@
 package com.muchine.githubuser.view
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,7 +30,6 @@ class FavoritesFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel = getViewModel { createUserViewModel() }
-        Log.d("UserViewModel", "FavoriteFragment: ${System.identityHashCode(viewModel)}")
         adapter = UserItemAdapter(requireContext(), createItemListener())
 
         viewModel.favorites.observe(this, Observer {
@@ -40,6 +38,8 @@ class FavoritesFragment : BaseFragment() {
 
         initRecyclerView()
         initViewListeners()
+
+        onClickSearch()
     }
 
     private fun createUserViewModel(): UserViewModel {

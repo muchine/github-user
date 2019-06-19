@@ -31,9 +31,9 @@
 		android:layout_marginEnd="8dp"
 		android:contentDescription="@string/search_icon_text"
 		android:padding="10dp"
-		android:src="@drawable/ico_search"
 		app:layout_constraintEnd_toEndOf="parent"
-		app:layout_constraintTop_toTopOf="parent" />
+		app:layout_constraintTop_toTopOf="parent"
+		app:srcCompat="@drawable/ic_search_black_24dp" />
 
 	<androidx.recyclerview.widget.RecyclerView
 		android:id="@+id/recyclerView"
