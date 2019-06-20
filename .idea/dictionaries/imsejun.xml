@@ -2,6 +2,7 @@
   <dictionary name="imsejun">
     <words>
       <w>bindable</w>
+      <w>coroutines</w>
     </words>
   </dictionary>
 </component>

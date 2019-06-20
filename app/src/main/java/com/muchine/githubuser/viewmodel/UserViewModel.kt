@@ -1,27 +1,25 @@
 package com.muchine.githubuser.viewmodel
 
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.muchine.githubuser.repository.User
 import com.muchine.githubuser.repository.UserRepository
-import kotlinx.coroutines.launch
+import com.muchine.githubuser.ui.base.BaseViewModel
 
 class UserViewModel(
     private val repository: UserRepository
-) : ViewModel() {
+) : BaseViewModel() {
 
     val users = MutableLiveData<List<User>>()
     val favorites = MutableLiveData<List<User>>()
 
     fun fetchUser(query: String) {
-        viewModelScope.launch {
+        execute {
             updateUsers(repository.findUsers(query))
         }
     }
 
     fun fetchFavorite(query: String = "") {
-        viewModelScope.launch {
+        execute {
             updateFavorites(repository.findFavorites(query))
         }
     }
@@ -31,7 +29,7 @@ class UserViewModel(
     }
 
     private fun addFavorite(user: User) {
-        viewModelScope.launch {
+        execute {
             val updated = repository.saveFavorite(user)
             updateUsers(updated)
             updateFavorites(updated)
@@ -39,7 +37,7 @@ class UserViewModel(
     }
 
     private fun removeFavorite(user: User) {
-        viewModelScope.launch {
+        execute {
             val updated = repository.removeFavorite(user)
             updateUsers(updated)
             updateFavorites(updated)
