@@ -15,35 +15,27 @@ class UserRepository(context: Context) {
     private val remoteSource = GithubDataSourceFactory.create()
     private val localSource = AppDatabase.getInstance(context).localSource()
 
-    suspend fun saveFavorite(user: User): User {
-        return execute {
-            User(user.id, user.name, user.imageUrl, true).also { localSource.save(it) }
-        }
+    suspend fun saveFavorite(user: User): User = execute {
+        User(user.id, user.name, user.imageUrl, true).also { localSource.save(it) }
     }
 
-    suspend fun removeFavorite(user: User): User {
-        return execute {
-            User(user.id, user.name, user.imageUrl, false).also { localSource.remove(user) }
-        }
+    suspend fun removeFavorite(user: User): User = execute {
+        User(user.id, user.name, user.imageUrl, false).also { localSource.remove(user) }
     }
 
-    suspend fun findFavorites(query: String = ""): List<User> {
-        return execute {
-            if (query.isEmpty()) localSource.findAll() else localSource.findByName("%$query%")
-        }
+    suspend fun findFavorites(query: String = ""): List<User> = execute {
+        if (query.isEmpty()) localSource.findAll() else localSource.findByName("%$query%")
     }
 
-    suspend fun findUsers(query: String): List<User> {
-        return execute {
-            val favoriteUsers = localSource.findAll()
+    suspend fun findUsers(query: String): List<User> = execute {
+        val favoriteUsers = localSource.findAll()
 
-            val response = remoteSource.findUsers(query)
-            if (!response.isSuccessful) throw IllegalStateException("response is not successful")
+        val response = remoteSource.findUsers(query)
+        if (!response.isSuccessful) throw IllegalStateException("response is not successful")
 
-            response.body()?.let { response ->
-                response.items.map { createUser(it, favoriteUsers) }
-            } ?: throw IllegalStateException("response body is null")
-        }
+        response.body()?.let { response ->
+            response.items.map { createUser(it, favoriteUsers) }
+        } ?: throw IllegalStateException("response body is null")
     }
 
     private fun createUser(item: UserItemResponse, favoriteUsers: List<User>): User {
