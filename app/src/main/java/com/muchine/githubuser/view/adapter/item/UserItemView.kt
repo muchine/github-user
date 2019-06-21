@@ -22,9 +22,16 @@ class UserItemView(
     override fun bind(item: UserItem) {
         val user = item.user
 
-        userName.text = user.name
+        renderUserName(user)
         renderImage(user)
         renderFavorite(user)
+    }
+
+    private fun renderUserName(user: User) {
+        userName.text = user.name
+        userName.setOnClickListener {
+            itemListener.onClickItem(user)
+        }
     }
 
     private fun renderImage(user: User) {
@@ -46,6 +53,8 @@ class UserItemView(
     interface Listener {
 
         fun onClickFavorite(user: User)
+
+        fun onClickItem(user: User)
 
     }
 

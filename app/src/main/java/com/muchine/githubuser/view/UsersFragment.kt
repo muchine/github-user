@@ -50,6 +50,10 @@ class UsersFragment : BaseFragment() {
             override fun onClickFavorite(user: User) {
                 viewModel.onClickFavorite(user)
             }
+
+            override fun onClickItem(user: User) {
+
+            }
         }
     }
 

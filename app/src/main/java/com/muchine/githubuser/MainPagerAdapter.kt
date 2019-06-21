@@ -34,17 +34,11 @@ class FragmentPage(
 
 object FragmentPageFactory {
 
-    private val pages = arrayListOf(
-        FragmentPage(
-            R.string.tab_users,
-            UsersFragment()
-        ),
-        FragmentPage(
-            R.string.tab_favorites,
-            FavoritesFragment()
+    fun create(navigator: FragmentNavigator): List<FragmentPage> {
+        return arrayListOf(
+            FragmentPage(R.string.tab_users, UsersFragment()),
+            FragmentPage(R.string.tab_favorites, FavoritesFragment(navigator))
         )
-    )
-
-    fun create() = pages
+    }
 
 }
