@@ -76,7 +76,7 @@ class UsersFragment : BaseFragment() {
     private fun onClickSearch() {
         editQuery.let {
             val query = it.text.toString()
-            if (query.isEmpty()) return showToast(R.string.search_hint)
+            if (query.isEmpty()) return showSnackbar(R.string.search_hint)
 
             progressBar.visibility = View.VISIBLE
             Keyboard.hide(it)

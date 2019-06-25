@@ -34,10 +34,10 @@ class FragmentPage(
 
 object FragmentPageFactory {
 
-    fun create(navigator: FragmentNavigator): List<FragmentPage> {
+    fun create(): List<FragmentPage> {
         return arrayListOf(
             FragmentPage(R.string.tab_users, UsersFragment()),
-            FragmentPage(R.string.tab_favorites, FavoritesFragment(navigator))
+            FragmentPage(R.string.tab_favorites, FavoritesFragment())
         )
     }
 

@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import com.muchine.githubuser.ui.base.BaseFragment
 import kotlinx.android.synthetic.main.fragment_main.*
 
-class MainFragment(private val navigator: FragmentNavigator) : BaseFragment() {
+class MainFragment : BaseFragment() {
 
     private lateinit var adapter: MainPagerAdapter
 
@@ -19,7 +19,7 @@ class MainFragment(private val navigator: FragmentNavigator) : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val activity = requireActivity()
-        adapter = MainPagerAdapter(activity, FragmentPageFactory.create(navigator), childFragmentManager)
+        adapter = MainPagerAdapter(activity, FragmentPageFactory.create(), childFragmentManager)
 
         pager.adapter = adapter
         tabLayout.setupWithViewPager(pager)

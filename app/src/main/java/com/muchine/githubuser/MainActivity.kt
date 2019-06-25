@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity(), FragmentNavigator {
     }
 
     private fun addFragment() {
-        val fragment = MainFragment(this)
+        val fragment = MainFragment()
         supportFragmentManager.beginTransaction()
             .add(android.R.id.content, fragment)
             .commit()

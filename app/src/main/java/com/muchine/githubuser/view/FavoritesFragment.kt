@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import com.jay.widget.StickyHeadersLinearLayoutManager
-import com.muchine.githubuser.FragmentNavigator
 import com.muchine.githubuser.R
 import com.muchine.githubuser.repository.User
 import com.muchine.githubuser.repository.UserRepository
@@ -19,7 +18,7 @@ import com.muchine.githubuser.view.adapter.item.UserItemView
 import com.muchine.githubuser.viewmodel.UserViewModel
 import kotlinx.android.synthetic.main.view_user_list.*
 
-class FavoritesFragment(private val navigator: FragmentNavigator) : BaseFragment() {
+class FavoritesFragment : BaseFragment() {
 
     private lateinit var viewModel: UserViewModel
     private lateinit var adapter: UserItemAdapter
