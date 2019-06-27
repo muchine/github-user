@@ -3,5 +3,6 @@
     <string name="search_hint">Please type a query</string>
     <string name="tab_users">Users</string>
     <string name="tab_favorites">Favorites</string>
+    <string name="tab_paged">Paged</string>
 	<string name="search_icon_text">Search</string>
 </resources>
