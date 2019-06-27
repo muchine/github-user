@@ -54,13 +54,11 @@ abstract class AbstractImage(private var option: ImageOption? = null) {
         request
             .downsample(DownsampleStrategy.FIT_CENTER)
             .into(object : BitmapImageViewTarget(view) {
-
-            override fun onResourceReady(bitmap: Bitmap, transition: Transition<in Bitmap>?) {
-                super.onResourceReady(bitmap, transition)
-                option?.onResourceReady?.invoke(bitmap)
-            }
-
-        })
+                override fun onResourceReady(bitmap: Bitmap, transition: Transition<in Bitmap>?) {
+                    super.onResourceReady(bitmap, transition)
+                    option?.onResourceReady?.invoke(bitmap)
+                }
+            })
     }
 
     fun clear(view: ImageView) {

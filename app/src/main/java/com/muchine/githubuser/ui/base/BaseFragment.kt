@@ -10,6 +10,10 @@ abstract class BaseFragment : Fragment() {
 
     protected lateinit var navigator: FragmentNavigator
 
+    protected fun debug(message: String) {
+        Log.d(this.javaClass.simpleName, message)
+    }
+
     protected fun showSnackbar(textResId: Int, duration: Int = Snackbar.LENGTH_SHORT) {
         view?.let { Snackbar.make(it, textResId, duration).show() }
     }

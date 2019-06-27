@@ -3,7 +3,9 @@ package com.muchine.githubuser.repository.source.remote
 import androidx.paging.PageKeyedDataSource
 import com.muchine.githubuser.repository.User
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class PagedRemoteDataSource(
     private val source: RemoteDataSource,
@@ -31,13 +33,15 @@ class PagedRemoteDataSource(
 
     private fun load(page: Int, per: Int, onLoaded: suspend (users: List<User>) -> Unit) {
         scope.launch {
-            val response = source.findUsers(query, page, per)
-            if (!response.isSuccessful) throw IllegalStateException("response is not successful")
+            withContext(Dispatchers.IO) {
+                val response = source.findUsers(query, page, per)
+                if (!response.isSuccessful) throw IllegalStateException("response is not successful")
 
-            val items = response.body()?.items ?: throw IllegalStateException("response body is null")
-            val users = items.map { User(it.id, it.name, it.avatarUrl, false) }
+                val items = response.body()?.items ?: throw IllegalStateException("response body is null")
+                val users = items.map { User(it.id, it.name, it.avatarUrl, false) }
 
-            onLoaded(users)
+                onLoaded(users)
+            }
         }
     }
 

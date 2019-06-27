@@ -1,7 +1,6 @@
 package com.muchine.githubuser.view
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -43,7 +42,7 @@ class PagedUsersFragment : BaseFragment() {
         })
 
         viewModel.users.observe(this, Observer {
-            Log.d("PagedUserFragment", "user size: ${it.size}")
+            debug("user size: ${it.loadedCount}")
             onUsersChanged(it)
         })
 
@@ -63,7 +62,7 @@ class PagedUsersFragment : BaseFragment() {
     }
 
     private fun onUsersChanged(users: PagedList<User>) {
-        reload(users)
+        adapter.submitList(users)
         progressBar.visibility = View.GONE
     }
 
@@ -78,7 +77,4 @@ class PagedUsersFragment : BaseFragment() {
         }
     }
 
-    private fun reload(users: PagedList<User>) {
-        adapter.submitList(users)
-    }
 }
