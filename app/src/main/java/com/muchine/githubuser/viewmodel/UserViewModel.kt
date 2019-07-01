@@ -1,21 +1,30 @@
 package com.muchine.githubuser.viewmodel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations.switchMap
+import androidx.lifecycle.viewModelScope
+import androidx.paging.Config
+import androidx.paging.LivePagedListBuilder
+import androidx.paging.PagedList
 import com.muchine.githubuser.repository.User
 import com.muchine.githubuser.repository.UserRepository
+import com.muchine.githubuser.repository.source.remote.PagedUserLoader
 import com.muchine.githubuser.ui.base.BaseViewModel
 
 class UserViewModel(
     private val repository: UserRepository
 ) : BaseViewModel() {
 
-    val users = MutableLiveData<List<User>>()
+    private val config = Config(50, 15, false, 50)
+    private val userQuery = MutableLiveData<String>()
+    private var factory: PagedUserLoader? = null
+
+    val users = createUsersLiveData()
     val favorites = MutableLiveData<List<User>>()
 
-    fun fetchUser(query: String) {
-        execute {
-            updateUsers(repository.findUsers(query))
-        }
+    fun fetchUsers(query: String) {
+        this.userQuery.value = query
     }
 
     fun fetchFavorite(query: String = "") {
@@ -26,6 +35,14 @@ class UserViewModel(
 
     fun onClickFavorite(user: User) {
         if (user.isFavorite) removeFavorite(user) else addFavorite(user)
+    }
+
+    private fun createUsersLiveData(): LiveData<PagedList<User>> {
+        return switchMap(userQuery) {
+            val factory = PagedUserLoader(repository, it, viewModelScope)
+            this.factory = factory
+            LivePagedListBuilder<Int, User>(factory, config).build()
+        }
     }
 
     private fun addFavorite(user: User) {
@@ -45,8 +62,7 @@ class UserViewModel(
     }
 
     private fun updateUsers(updated: User) {
-        val userList = users.value ?: return
-        updateUsers(userList.map { if (it.id == updated.id) updated else it })
+        factory?.updateUser(updated) ?: return
     }
 
     private fun updateFavorites(updated: User) {
@@ -55,10 +71,6 @@ class UserViewModel(
         }
 
         updateFavorites(favoriteList)
-    }
-
-    private fun updateUsers(updated: List<User>) {
-        users.value = updated.sortedBy { it.name }
     }
 
     private fun updateFavorites(updated: List<User>) {

@@ -9,18 +9,20 @@ import androidx.paging.PagedList
 import com.jay.widget.StickyHeadersLinearLayoutManager
 import com.muchine.githubuser.R
 import com.muchine.githubuser.repository.User
+import com.muchine.githubuser.repository.UserRepository
 import com.muchine.githubuser.ui.base.BaseFragment
 import com.muchine.githubuser.ui.core.viewmodel.getViewModel
 import com.muchine.githubuser.util.Keyboard
+import com.muchine.githubuser.util.debug
 import com.muchine.githubuser.view.adapter.PagedUserItemAdapter
 import com.muchine.githubuser.view.adapter.UserItemAdapter
 import com.muchine.githubuser.view.adapter.item.UserItemView
-import com.muchine.githubuser.viewmodel.PagedUserViewModel
+import com.muchine.githubuser.viewmodel.UserViewModel
 import kotlinx.android.synthetic.main.view_user_list.*
 
 class PagedUsersFragment : BaseFragment() {
 
-    private lateinit var viewModel: PagedUserViewModel
+    private lateinit var viewModel: UserViewModel
     private lateinit var adapter: PagedUserItemAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -30,10 +32,11 @@ class PagedUsersFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        this.viewModel = getViewModel { PagedUserViewModel() }
+        val repository = UserRepository(requireContext().applicationContext)
+        this.viewModel = getViewModel { UserViewModel(repository) }
         this.adapter = PagedUserItemAdapter(requireContext(), object : UserItemView.Listener {
             override fun onClickFavorite(user: User) {
-
+                viewModel.onClickFavorite(user)
             }
 
             override fun onClickItem(user: User) {

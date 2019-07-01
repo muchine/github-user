@@ -16,8 +16,8 @@ interface RemoteDataSource {
     @GET("search/users")
     suspend fun findUsers(
         @Query("q") query: String,
-        @Query("page") page: Int = 1,
-        @Query("per_page") per: Int = 100
+        @Query("page") page: Int,
+        @Query("per_page") per: Int
     ): Response<UserListResponse>
 
 }

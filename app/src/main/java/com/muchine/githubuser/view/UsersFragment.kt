@@ -80,7 +80,7 @@ class UsersFragment : BaseFragment() {
 
             progressBar.visibility = View.VISIBLE
             Keyboard.hide(it)
-            viewModel.fetchUser(editQuery.text.toString())
+            viewModel.fetchUsers(editQuery.text.toString())
         }
     }
 
